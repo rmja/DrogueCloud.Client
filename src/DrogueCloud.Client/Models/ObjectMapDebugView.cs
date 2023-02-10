@@ -27,9 +27,9 @@ internal class ObjectMapDebugView<T> where T : Dictionary<string, JsonElement>
                 entries[i++] = new(property.Name, property.GetValue(_map));
             }
 
-            foreach (var (key, value) in _map)
+            foreach (var item in _map)
             {
-                entries[i++] = new(key, value);
+                entries[i++] = new(item.Key, item.Value);
             }
 
             return entries;

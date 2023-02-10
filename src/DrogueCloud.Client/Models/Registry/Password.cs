@@ -9,10 +9,24 @@ namespace DrogueCloud.Client.Models.Registry;
 [JsonConverter(typeof(JsonConverter))]
 public readonly record struct Password
 {
-    public string? Value { get; init; }
-    public string? Plain { get; init; }
-    public string? BCrypt { get; init; }
-    public string? Sha512 { get; init; }
+    public string? Value { get; }
+    public string? Plain { get; }
+    public string? BCrypt { get; }
+    public string? Sha512 { get; }
+
+    private Password(string? value = null, string? plain = null, string? bCrypt = null, string? sha256 = null)
+    {
+        Value = value;
+        Plain = plain;
+        BCrypt = bCrypt;
+        Sha512 = sha256;
+    }
+
+    public static implicit operator Password(string value) => new(value: value);
+
+    public static Password FromPlain(string value) => new(plain: value);
+    public static Password FromBCrypt(string value) => new(bCrypt: value);
+    public static Password FromSha512(string value) => new(sha256: value);
 
     public bool IsValidPassword(string password)
     {
@@ -44,7 +58,7 @@ public readonly record struct Password
         {
             if (reader.TokenType == JsonTokenType.String)
             {
-                return new Password { Value = reader.GetString() };
+                return reader.GetString()!;
             }
             else if (reader.TokenType == JsonTokenType.StartObject)
             {
@@ -53,15 +67,15 @@ public readonly record struct Password
                 reader.Read();
                 if (reader.ValueTextEquals(Plain.EncodedUtf8Bytes))
                 {
-                    password = new Password { Plain = reader.GetString() };
+                    password = FromPlain(reader.GetString()!);
                 }
                 else if (reader.ValueTextEquals(BCrypt.EncodedUtf8Bytes))
                 {
-                    password = new Password { BCrypt = reader.GetString() };
+                    password = FromBCrypt(reader.GetString()!);
                 }
                 else if (reader.ValueTextEquals(Sha512.EncodedUtf8Bytes))
                 {
-                    password = new Password { Sha512 = reader.GetString() };
+                    password = FromSha512(reader.GetString()!);
                 }
                 else
                 {
