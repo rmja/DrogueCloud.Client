@@ -6,7 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection
 {
     public static class DrogueCloudExtensions
     {
-        public static IHttpClientBuilder AddDrogueCloud(this IServiceCollection services, Action<DrogueCloudOptions>? configureOptions = null)
+        public static IHttpClientBuilder AddDrogueCloudManagementApi(this IServiceCollection services, Action<DrogueCloudManagementApiOptions>? configureOptions = null)
         {
             if (configureOptions is not null)
             {
@@ -14,14 +14,32 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             return services
-                .AddTransient<BasicAuthHandler>()
-                .AddRefitClient<IDrogueCloudApi>()
+                .AddTransient<BasicAuthHandler<DrogueCloudManagementApiOptions>>()
+                .AddRefitClient<IDrogueCloudManagementApi>()
                     .ConfigureHttpClient((services, client) =>
                     {
-                        var endpoint = services.GetRequiredService<IOptions<DrogueCloudOptions>>().Value.Endpoint;
+                        var endpoint = services.GetRequiredService<IOptions<DrogueCloudManagementApiOptions>>().Value.Endpoint;
                         client.BaseAddress = new Uri(endpoint);
                     })
-                    .AddHttpMessageHandler<BasicAuthHandler>();
+                    .AddHttpMessageHandler<BasicAuthHandler<DrogueCloudManagementApiOptions>>();
+        }
+
+        public static IHttpClientBuilder AddDrogueCloudDeviceDeviceApi(this IServiceCollection services, Action<DrogueCloudDeviceApiOptions>? configureOptions = null)
+        {
+            if (configureOptions is not null)
+            {
+                services.Configure(configureOptions);
+            }
+
+            return services
+                .AddTransient<BasicAuthHandler<DrogueCloudDeviceApiOptions>>()
+                .AddRefitClient<IDrogueCloudDeviceApi>()
+                    .ConfigureHttpClient((services, client) =>
+                    {
+                        var endpoint = services.GetRequiredService<IOptions<DrogueCloudDeviceApiOptions>>().Value.Endpoint;
+                        client.BaseAddress = new Uri(endpoint);
+                    })
+                    .AddHttpMessageHandler<BasicAuthHandler<DrogueCloudDeviceApiOptions>>();
         }
     }
 }

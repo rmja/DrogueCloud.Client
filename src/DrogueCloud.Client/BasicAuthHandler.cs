@@ -4,11 +4,11 @@ using System.Text;
 
 namespace DrogueCloud.Client
 {
-    public class BasicAuthHandler : DelegatingHandler
+    public class BasicAuthHandler<TOptions> : DelegatingHandler where TOptions : class, IApiCredentials
     {
-        private readonly DrogueCloudOptions _options;
+        private readonly TOptions _options;
 
-        public BasicAuthHandler(IOptions<DrogueCloudOptions> options)
+        public BasicAuthHandler(IOptions<TOptions> options)
         {
             _options = options.Value;
         }

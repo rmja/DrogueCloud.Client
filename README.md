@@ -6,14 +6,14 @@ It uses HttpClientFactory and Refit.
 
 ```c#
 var services = new ServiceCollection();
-services.AddDrogueCloud(options => {
+services.AddDrogueCloudManagementApi(options => {
     options.Endpoint = "https://api.sandbox.drogue.cloud";
     options.Username = "some-user";
     options.Password = "some-password";
 });
 
 var provider = services.BuildServiceProvider();
-var drogue = provider.GetRequiredService<IDrogueClientApi>();
+var drogue = provider.GetRequiredService<IDrogueCloudManagementApi>();
 
 var app = await drogue.GetAppAsync("some-app");
 ```

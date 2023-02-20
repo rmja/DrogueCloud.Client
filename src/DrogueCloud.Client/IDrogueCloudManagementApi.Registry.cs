@@ -3,7 +3,7 @@ using Refit;
 
 namespace DrogueCloud.Client
 {
-    public partial interface IDrogueCloudApi
+    public partial interface IDrogueCloudManagementApi
     {
         [Get("/api/registry/v1alpha1/apps")]
         Task<List<App>> GetAppsAsync([Header("Authorization")] string? authorization = null, CancellationToken cancellationToken = default);
