@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <LangVersion>10.0</LangVersion>
-    <Version>1.0.0-alpha.0</Version>
+    <Version>1.0.0-alpha.1</Version>
     <Authors>Rasmus Melchior Jacobsen</Authors>
     <Description>A .NET client for the DrogueCloud API</Description>
     <PackageTags>drogue</PackageTags>

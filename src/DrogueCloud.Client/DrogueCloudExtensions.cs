@@ -24,7 +24,7 @@ namespace Microsoft.Extensions.DependencyInjection
                     .AddHttpMessageHandler<BasicAuthHandler<DrogueCloudManagementApiOptions>>();
         }
 
-        public static IHttpClientBuilder AddDrogueCloudDeviceDeviceApi(this IServiceCollection services, Action<DrogueCloudDeviceApiOptions>? configureOptions = null)
+        public static IHttpClientBuilder AddDrogueCloudDeviceApi(this IServiceCollection services, Action<DrogueCloudDeviceApiOptions>? configureOptions = null)
         {
             if (configureOptions is not null)
             {
